@@ -31,9 +31,13 @@ def clean_text(text):
 class TextInput(BaseModel):
     text: str
 
-@app.get("/", include_in_schema=False)
-def root():
-    return {"message": "✅ API is running"}
+@app.get("/")
+def read_root():
+    return {"message": "Backend is running"}
+
+#@app.get("/", include_in_schema=False)
+#def root():
+#    return {"message": "✅ API is running"}
 
 @app.post("/predict")
 def predict(input: TextInput):
@@ -41,3 +45,10 @@ def predict(input: TextInput):
     vect = vectorizer.transform([clean])
     prediction = model.predict(vect)
     return {"predicted_class": int(prediction[0])}
+
+import os
+import uvicorn
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
