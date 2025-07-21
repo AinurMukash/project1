@@ -1,15 +1,25 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
-import numpy as np
 import re
 import os
 
 app = FastAPI()
 
-# Загружаем модель и векторизатор
-model = joblib.load("models/DecisionTreeClassifier_model.pkl")
-vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
+# Разрешаем CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Пути к моделям
+BASE_DIR = os.path.dirname(__file__)
+model = joblib.load(os.path.join(BASE_DIR, "models", "DecisionTreeClassifier_model.pkl"))
+vectorizer = joblib.load(os.path.join(BASE_DIR, "models", "tfidf_vectorizer.pkl"))
 
 class TextIn(BaseModel):
     text: str
