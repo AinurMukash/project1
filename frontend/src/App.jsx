@@ -7,7 +7,7 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post('https://your-backend.up.railway.app/predict', { text });
+      const res = await axios.post('https://your-app-name.up.railway.app/predict', { text });
       setPrediction(res.data.predicted_class);
     } catch (err) {
       console.error(err);
