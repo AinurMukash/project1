@@ -28,3 +28,5 @@ EXPOSE 80
 # 10. Запускаем nginx
 CMD ["nginx", "-g", "daemon off;"]
 
+# Решение: выставляем права + собираем
+RUN chmod +x node_modules/.bin/* && npm run build
