@@ -13,20 +13,20 @@ RUN npm install
 # 5. Копирование остальных файлов
 COPY . .
 
-# 6. Сборка проекта
+# 6. Делаем bin-файлы исполняемыми (на всякий случай)
+RUN chmod -R +x node_modules/.bin
+
+# 7. Сборка проекта
 RUN npm run build
 
-# 7. Этап запуска
+# 8. Этап запуска
 FROM nginx:alpine
 
-# 8. Копируем собранные файлы
+# 9. Копируем собранные файлы во второй контейнер
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# 9. Экспонируем порт
+# 10. Экспонируем порт
 EXPOSE 80
 
-# 10. Запускаем nginx
+# 11. Запускаем nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-# Решение: выставляем права + собираем
-RUN chmod +x node_modules/.bin/* && npm run build
