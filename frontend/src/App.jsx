@@ -7,7 +7,7 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/predict`, { text });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/predict`, { text });
       setPrediction(res.data.predicted_class);
     } catch (err) {
       console.error(err);
